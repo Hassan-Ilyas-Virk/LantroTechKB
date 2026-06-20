@@ -3,7 +3,7 @@ import { FiHome, FiHelpCircle, FiHash, FiTrendingUp, FiStar } from 'react-icons/
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, closeSidebar }) => {
   const location = useLocation();
   const [popularTags, setPopularTags] = useState([]);
 
@@ -27,7 +27,11 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="glass-panel" style={{ 
+    <>
+      {isOpen && (
+        <div className="mobile-sidebar-overlay show-on-mobile" onClick={closeSidebar}></div>
+      )}
+      <aside className={`glass-panel sidebar-mobile ${isOpen ? 'open' : ''}`} style={{ 
       width: 'var(--sidebar-width)', 
       height: 'calc(100vh - var(--navbar-height) - 3rem)',
       position: 'sticky',
@@ -94,6 +98,7 @@ const Sidebar = () => {
       </div>
 
     </aside>
+    </>
   );
 };
 

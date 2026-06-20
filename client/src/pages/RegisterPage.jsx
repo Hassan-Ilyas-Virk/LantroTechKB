@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { FiUser, FiMail, FiLock, FiBriefcase, FiArrowRight } from 'react-icons/fi';
-import PixelBlast from '../components/common/PixelBlast';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +11,7 @@ const RegisterPage = () => {
     department: 'Engineering'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   
   const { register, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -36,27 +36,37 @@ const RegisterPage = () => {
     setIsSubmitting(false);
   };
 
+  const handleMouseMove = (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    setMousePos({ x, y });
+  };
+
   const departments = ['Engineering', 'HR', 'DevOps', 'Frontend', 'Backend', 'Design', 'QA', 'Management', 'Marketing', 'Support'];
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative' }}>
+    <div 
+      onMouseMove={handleMouseMove}
+      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative' }}
+    >
       
-      {/* Interactive PixelBlast Background */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: '#169f9e' }}>
-        <PixelBlast
-          variant="square"
-          pixelSize={4}
-          color="#e8e8e8"
-          patternScale={2}
-          patternDensity={1}
-          enableRipples
-          rippleSpeed={0.3}
-          rippleThickness={0.1}
-          rippleIntensityScale={1}
-          speed={0.5}
-          transparent
-          edgeFade={0}
-        />
+      {/* Background and Giant Text Watermark */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: 'var(--accent-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        <h1 style={{ 
+          fontSize: '32vw', 
+          fontWeight: 900, 
+          color: 'var(--accent-amber)', 
+          opacity: 0.8,
+          lineHeight: 0.75,
+          userSelect: 'none',
+          textAlign: 'center',
+          margin: 0,
+          letterSpacing: '-0.05em',
+          transform: `translate(${mousePos.x * -40}px, ${mousePos.y * -40}px)`,
+          transition: 'transform 0.1s ease-out'
+        }}>
+          LANTRO<br />TECH
+        </h1>
       </div>
 
       <div className="glass-panel" style={{ maxWidth: '450px', width: '100%', padding: '2.5rem', position: 'relative', overflow: 'hidden', zIndex: 10 }}>
@@ -65,7 +75,7 @@ const RegisterPage = () => {
         <div style={{ position: 'absolute', top: '-50px', left: '-50px', width: '150px', height: '150px', background: 'var(--accent-green)', opacity: '0.15', borderRadius: '50%', filter: 'blur(40px)' }}></div>
         
         <div style={{ textAlign: 'center', marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700, color: 'var(--accent-amber)' }}>Create Account</h1>
+          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700, color: 'var(--accent-blue-hover)' }}>Create Account</h1>
           <p className="text-secondary">Join the Lantrotech Knowledge Base</p>
         </div>
 

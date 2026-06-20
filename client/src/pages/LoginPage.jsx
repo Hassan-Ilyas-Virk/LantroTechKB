@@ -2,13 +2,12 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
-import PixelBlast from '../components/common/PixelBlast';
-
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
   const { login, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -28,34 +27,44 @@ const LoginPage = () => {
     setIsSubmitting(false);
   };
 
+  const handleMouseMove = (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    setMousePos({ x, y });
+  };
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative' }}>
-      
-      {/* Interactive PixelBlast Background */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: '#169f9e' }}>
-        <PixelBlast
-          variant="square"
-          pixelSize={4}
-          color="#e8e8e8"
-          patternScale={2}
-          patternDensity={1}
-          enableRipples
-          rippleSpeed={0.3}
-          rippleThickness={0.1}
-          rippleIntensityScale={1}
-          speed={0.5}
-          transparent
-          edgeFade={0}
-        />
+    <div 
+      onMouseMove={handleMouseMove}
+      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative' }}
+    >
+
+      {/* Background and Giant Text Watermark */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: 'var(--accent-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        <h1 style={{ 
+          fontSize: '32vw', 
+          fontWeight: 900, 
+          color: 'var(--accent-amber)', 
+          opacity: 0.8,
+          lineHeight: 0.75,
+          userSelect: 'none',
+          textAlign: 'center',
+          margin: 0,
+          letterSpacing: '-0.05em',
+          transform: `translate(${mousePos.x * -40}px, ${mousePos.y * -40}px)`,
+          transition: 'transform 0.1s ease-out'
+        }}>
+          LANTRO<br />TECH
+        </h1>
       </div>
 
       <div className="glass-panel" style={{ maxWidth: '400px', width: '100%', padding: '2.5rem', position: 'relative', overflow: 'hidden', zIndex: 10 }}>
-        
+
         {/* Decorative elements */}
         <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: 'var(--accent-blue)', opacity: '0.2', borderRadius: '50%', filter: 'blur(30px)' }}></div>
-        
+
         <div style={{ textAlign: 'center', marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700, color: 'var(--accent-amber)' }}>LantroTech</h1>
+          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700, color: 'var(--accent-blue-hover)' }}>LantroTech</h1>
           <p className="text-secondary">Sign in to access the knowledge base</p>
         </div>
 
@@ -64,9 +73,9 @@ const LoginPage = () => {
             <label className="form-label">Email Address</label>
             <div style={{ position: 'relative' }}>
               <FiMail style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="email" 
-                className="form-control" 
+              <input
+                type="email"
+                className="form-control"
                 style={{ paddingLeft: '35px' }}
                 placeholder="you@lantrotech.com"
                 value={email}
@@ -80,9 +89,9 @@ const LoginPage = () => {
             <label className="form-label">Password</label>
             <div style={{ position: 'relative' }}>
               <FiLock style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="password" 
-                className="form-control" 
+              <input
+                type="password"
+                className="form-control"
                 style={{ paddingLeft: '35px' }}
                 placeholder="••••••••"
                 value={password}
@@ -92,9 +101,9 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <button 
-            type="submit" 
-            className="btn-primary" 
+          <button
+            type="submit"
+            className="btn-primary"
             style={{ width: '100%', marginTop: '1rem', padding: '0.75rem' }}
             disabled={isSubmitting}
           >
@@ -106,11 +115,11 @@ const LoginPage = () => {
         <p className="text-center text-muted" style={{ marginTop: '2rem', fontSize: '0.9rem', textAlign: 'center' }}>
           Don't have an account? <Link to="/register" style={{ color: 'var(--accent-blue)' }}>Register here</Link>
         </p>
-        
+
         {/* Demo Credentials Notice */}
         <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-          <strong>Demo Accounts:</strong><br/>
-          Admin: admin@lantrotech.com / admin123<br/>
+          <strong>Demo Accounts:</strong><br />
+          Admin: admin@lantrotech.com / admin123<br />
           Employee: sarah@lantrotech.com / password123
         </div>
       </div>

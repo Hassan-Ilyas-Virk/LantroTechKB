@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { FiSearch, FiBell, FiLogOut, FiUser, FiSettings } from 'react-icons/fi';
+import { FiSearch, FiBell, FiLogOut, FiUser, FiSettings, FiMenu } from 'react-icons/fi';
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   const { user, logout, isAdmin } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
@@ -30,12 +30,15 @@ const Navbar = () => {
       color: 'var(--text-primary)'
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+        <button className="show-on-mobile" onClick={toggleSidebar} style={{ color: 'var(--text-primary)', display: 'none' }}>
+          <FiMenu size={24} />
+        </button>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
           <div style={{ width: '32px', height: '32px', background: 'var(--accent-blue)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: '#ffffff' }}>LT</div>
           <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-blue-hover)' }}>LantroTech</span>
         </Link>
 
-        <form onSubmit={handleSearch} style={{ position: 'relative', width: '300px' }}>
+        <form onSubmit={handleSearch} className="hide-on-mobile" style={{ position: 'relative', width: '300px' }}>
           <FiSearch style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input 
             type="text" 
@@ -54,6 +57,12 @@ const Navbar = () => {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        {isAdmin && (
+          <Link to="/admin" className="btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', borderColor: 'var(--accent-blue)', color: 'var(--accent-blue-hover)' }}>
+            <FiSettings size={16} /> Admin
+          </Link>
+        )}
+
         <button style={{ color: 'var(--text-secondary)' }} title="Notifications">
           <FiBell size={20} />
         </button>
@@ -95,12 +104,6 @@ const Navbar = () => {
               <Link to={`/profile/${user?._id}`} className="dropdown-item" onClick={() => setShowDropdown(false)} style={dropdownItemStyle}>
                 <FiUser /> Profile
               </Link>
-              
-              {isAdmin && (
-                <Link to="/admin" className="dropdown-item" onClick={() => setShowDropdown(false)} style={dropdownItemStyle}>
-                  <FiSettings /> Admin Dashboard
-                </Link>
-              )}
               
               <button onClick={() => { logout(); setShowDropdown(false); }} style={{...dropdownItemStyle, color: 'var(--accent-red)'}}>
                 <FiLogOut /> Sign Out

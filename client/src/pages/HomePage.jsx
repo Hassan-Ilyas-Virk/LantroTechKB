@@ -30,7 +30,7 @@ const HomePage = () => {
   return (
     <div className="page-container">
       {/* Hero Section */}
-      <div className="glass-panel" style={{ 
+      <div className="glass-panel responsive-flex" style={{ 
         padding: '3rem 2rem', 
         marginBottom: '2rem', 
         display: 'flex', 
@@ -72,7 +72,7 @@ const HomePage = () => {
       </div>
 
       {/* Main Content Area */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem' }}>
+      <div className="responsive-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem' }}>
         
         {/* Left Col - Feed */}
         <div>

@@ -36,7 +36,7 @@ const ProfilePage = () => {
   return (
     <div className="page-container">
       {/* Profile Header */}
-      <div className="glass-panel" style={{ padding: '3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '2rem' }}>
+      <div className="glass-panel responsive-flex" style={{ padding: '3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '2rem' }}>
         <div style={{ 
           width: '100px', height: '100px', 
           borderRadius: '50%', 

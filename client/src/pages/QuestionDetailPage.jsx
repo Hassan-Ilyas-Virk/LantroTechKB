@@ -127,7 +127,7 @@ const QuestionDetailPage = () => {
       </div>
 
       {/* Question Body */}
-      <div className="glass-card" style={{ 
+      <div className="glass-card responsive-flex" style={{ 
         padding: '2rem', 
         marginBottom: '3rem', 
         display: 'flex', 

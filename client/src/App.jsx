@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from './context/AuthContext';
 
 // Pages will be imported here later
@@ -30,14 +30,15 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
 
 function App() {
   const { isAuthenticated, loading } = useContext(AuthContext);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   if (loading) return null; // App handles its own initial loading if needed
 
   return (
     <div className="app-container">
-      {isAuthenticated && <Navbar />}
-      <div style={{ display: 'flex', flex: 1 }}>
-        {isAuthenticated && <Sidebar />}
+      {isAuthenticated && <Navbar toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />}
+      <div style={{ display: 'flex', flex: 1, position: 'relative' }}>
+        {isAuthenticated && <Sidebar isOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)} />}
         <main className="main-content">
           <Routes>
           <Route path="/login" element={<LoginPage />} />
